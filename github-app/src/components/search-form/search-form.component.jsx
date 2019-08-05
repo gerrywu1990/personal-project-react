@@ -39,6 +39,8 @@ class SearchForm extends React.Component {
     return await Promise.all(pullRequestEvent.map(pullRequest => anAsyncFunction(pullRequest)))
   }
 
+  abortController = new AbortController()
+
   handleSubmit = event => {
     event.preventDefault()
 
@@ -52,10 +54,11 @@ class SearchForm extends React.Component {
         return mockEvent
       })
       .then(async data => {
+        const currentUser = this.state.search
+        this.setState({ search: '' })
         const forks = this.getForks(data)
         const pullRequest = await this.getPullRequest(data)
-        this.props.updateUserAndData(this.state.search, forks, pullRequest)
-        this.setState({ search: '' })
+        this.props.updateUserAndData(currentUser, forks, pullRequest)
       })
       .catch(error => alert(error.message))
   }
