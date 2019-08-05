@@ -1,6 +1,8 @@
 import React from 'react'
+
 import { mockEvent } from '../../helper/event-data-mock'
-import { mockPullRequest } from '../../helper/pull-request-data-mock'
+
+import { getForks, getPullRequest } from '../../helper/process-data-utils'
 
 class SearchForm extends React.Component {
   constructor(props) {
@@ -11,40 +13,10 @@ class SearchForm extends React.Component {
     }
   }
 
-  getForks = data =>
-    data
-      .filter(event => event.type === 'ForkEvent')
-      .map(event => ({
-        repo: event.payload.forkee.full_name,
-        forkFrom: event.repo.name,
-        url: event.payload.forkee.html_url,
-      }))
-
-  getPullRequest = async data => {
-    const anAsyncFunction = async pullRequest => {
-      return await //   fetch(pullRequest.payload.pull_request.url)
-      fetch('https://pokeapi.co/api/v2/pokemon')
-        .then(response => {
-          if (!response.ok) {
-            throw Error("can't get pull request data")
-          }
-          //   return response.json()
-          return mockPullRequest
-        })
-        .then(({ html_url, state, title }) => ({ url: html_url, state, title }))
-        .catch(error => alert(error.message))
-    }
-
-    const pullRequestEvent = data.filter(event => event.type === 'PullRequestEvent')
-    return await Promise.all(pullRequestEvent.map(pullRequest => anAsyncFunction(pullRequest)))
-  }
-
-  abortController = new AbortController()
-
   handleSubmit = event => {
     event.preventDefault()
 
-    // fetch(`https://api.github.com/users/pkanal/events`)
+    // fetch(`https://api.github.com/users/${this.state.search}/events`)
     fetch('https://pokeapi.co/api/v2/pokemon')
       .then(response => {
         if (!response.ok) {
@@ -56,11 +28,14 @@ class SearchForm extends React.Component {
       .then(async data => {
         const currentUser = this.state.search
         this.setState({ search: '' })
-        const forks = this.getForks(data)
-        const pullRequest = await this.getPullRequest(data)
+        const forks = getForks(data)
+        const pullRequest = await getPullRequest(data)
         this.props.updateUserAndData(currentUser, forks, pullRequest)
       })
-      .catch(error => alert(error.message))
+      .catch(error => {
+        alert(error.message)
+        this.setState({ search: '' })
+      })
   }
 
   handleChange = event => {

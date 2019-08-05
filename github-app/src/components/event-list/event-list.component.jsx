@@ -2,10 +2,12 @@ import React from 'react'
 
 import EventCard from '../event-card/event-card.component'
 
-const EventList = ({ type, heading, data }) => (
-  <>
-    <h1>{heading}</h1>
-    {
+const EventList = ({ type, heading, data }) => {
+  let content
+  if (data.length === 0) {
+    content = <p>No related data</p>
+  } else {
+    content = (
       <ul>
         {type === 'forks'
           ? data.map(({ forkFrom, repo, url }, idx) => (
@@ -15,8 +17,15 @@ const EventList = ({ type, heading, data }) => (
               <EventCard key={idx} title={title} subtitle={`Status: ${state}`} url={url} />
             ))}
       </ul>
-    }
-  </>
-)
+    )
+  }
+
+  return (
+    <>
+      <h1>{heading}</h1>
+      {content}
+    </>
+  )
+}
 
 export default EventList

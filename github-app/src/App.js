@@ -16,16 +16,7 @@ class App extends React.Component {
   }
 
   updateUserAndData = (currentUser, forks, pullRequest) => {
-    this.setState({ currentUser, forks, pullRequest }, () =>
-      console.log(
-        'currentuser: ',
-        this.state.currentUser,
-        'forks: ',
-        this.state.forks,
-        'pullRequest: ',
-        this.state.pullRequest
-      )
-    )
+    this.setState({ currentUser, forks, pullRequest })
   }
 
   render() {
