@@ -1,7 +1,7 @@
 import React from 'react'
+import styled from 'styled-components'
 
 import { mockEvent } from '../../helper/event-data-mock'
-
 import { getForks, getPullRequest } from '../../helper/process-data-utils'
 
 class SearchForm extends React.Component {
@@ -47,9 +47,9 @@ class SearchForm extends React.Component {
   render() {
     console.log('form render')
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label htmlFor="search">Github Username</label>
-        <input
+      <Form onSubmit={this.handleSubmit}>
+        <Label htmlFor="search">Github Username</Label>
+        <Input
           id="search"
           name="search"
           type="text"
@@ -57,10 +57,28 @@ class SearchForm extends React.Component {
           onChange={this.handleChange}
           required
         />
-        <button type="submit">GET USER</button>
-      </form>
+
+        <Button type="submit">GET USER</Button>
+      </Form>
     )
   }
 }
+
+const Form = styled.form.attrs({
+  className: 'measure center shadow-4 pa5 mv6 flex flex-column bg-white',
+})``
+
+const Button = styled.button.attrs({
+  className: 'b pv2 input-reset ba b--black bg-transparent grow pointer f5 mt3 w-50 br2',
+  type: 'submit',
+})``
+
+const Label = styled.label.attrs({
+  className: `db fw4 lh-copy f4`,
+})``
+
+const Input = styled.input.attrs({
+  className: `b pa2 input-reset ba bg-transparent`,
+})``
 
 export default SearchForm

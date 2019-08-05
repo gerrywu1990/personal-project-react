@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 
 import SearchForm from './components/search-form/search-form.component'
 import EventList from './components/event-list/event-list.component'
@@ -21,15 +22,27 @@ class App extends React.Component {
 
   render() {
     console.log('app render')
-    return this.state.currentUser ? (
-      <>
-        <EventList type="forks" heading="Recent Forks" data={this.state.forks} />
-        <EventList type="pullRequest" heading="Recent Pull Request" data={this.state.pullRequest} />
-      </>
-    ) : (
-      <SearchForm updateUserAndData={this.updateUserAndData} />
+    return (
+      <div>
+        {this.state.currentUser ? (
+          <Main>
+            <EventList type="forks" heading="Recent Forks" data={this.state.forks} />
+            <EventList
+              type="pullRequest"
+              heading="Recent Pull Request"
+              data={this.state.pullRequest}
+            />
+          </Main>
+        ) : (
+          <SearchForm updateUserAndData={this.updateUserAndData} />
+        )}
+      </div>
     )
   }
 }
+
+const Main = styled.div.attrs({
+  className: `bg-white pt2 pb2`,
+})``
 
 export default App

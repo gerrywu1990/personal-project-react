@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 
 import EventCard from '../event-card/event-card.component'
 
@@ -8,7 +9,7 @@ const EventList = ({ type, heading, data }) => {
     content = <p>No related data</p>
   } else {
     content = (
-      <ul>
+      <List>
         {type === 'forks'
           ? data.map(({ forkFrom, repo, url }, idx) => (
               <EventCard key={idx} title={repo} subtitle={`Fork from: ${forkFrom}`} url={url} />
@@ -16,16 +17,24 @@ const EventList = ({ type, heading, data }) => {
           : data.map(({ state, title, url }, idx) => (
               <EventCard key={idx} title={title} subtitle={`Status: ${state}`} url={url} />
             ))}
-      </ul>
+      </List>
     )
   }
 
   return (
-    <>
+    <Section>
       <h1>{heading}</h1>
       {content}
-    </>
+    </Section>
   )
 }
+
+const List = styled.ul.attrs({
+  className: `list f6 pl0`,
+})``
+
+const Section = styled.div.attrs({
+  className: `ma5`,
+})``
 
 export default EventList

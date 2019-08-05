@@ -1,12 +1,29 @@
 import React from 'react'
+import styled from 'styled-components'
 
 const EventCard = ({ title, subtitle, url }) => (
-  <li>
-    <a href={url}>
-      <p>{title}</p>
-      <span>{subtitle}</span>
-    </a>
-  </li>
+  <ListItem>
+    <Link href={url}>
+      <Title>{title}</Title>
+      <Subtitle>{subtitle}</Subtitle>
+    </Link>
+  </ListItem>
 )
+
+const ListItem = styled.li.attrs({
+  className: `pv2`,
+})``
+
+const Link = styled.a.attrs({
+  className: `link dt w-100 bb b--black-10 pb2 mt2 dim blue`,
+})``
+
+const Title = styled.span.attrs({
+  className: `fw7`,
+})``
+
+const Subtitle = styled.span.attrs({
+  className: `db black-60`,
+})``
 
 export default EventCard
