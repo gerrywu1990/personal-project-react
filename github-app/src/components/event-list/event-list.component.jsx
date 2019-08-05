@@ -34,7 +34,7 @@ const List = styled.ul.attrs({
 })``
 
 const Section = styled.div.attrs({
-  className: `ma4`,
+  className: `mt4 mb4`,
 })``
 
 export default EventList

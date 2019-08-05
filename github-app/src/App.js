@@ -3,7 +3,8 @@ import styled from 'styled-components'
 
 import SearchForm from './components/search-form/search-form.component'
 import EventList from './components/event-list/event-list.component'
-import './App.css'
+
+import CustomButton from './components/custom-button/custom-button.component'
 
 class App extends React.Component {
   constructor() {
@@ -20,12 +21,19 @@ class App extends React.Component {
     this.setState({ currentUser, forks, pullRequest })
   }
 
+  handleBackButton = () => {
+    this.setState({ currentUser: '' })
+  }
+
   render() {
     console.log('app render')
     return (
       <div>
         {this.state.currentUser ? (
           <Main>
+            <CustomButton className="ml" onClick={this.handleBackButton}>
+              Back
+            </CustomButton>
             <Header>{this.state.currentUser}</Header>
             <EventList type="forks" heading="Recent Forks" data={this.state.forks} />
             <EventList
@@ -43,7 +51,7 @@ class App extends React.Component {
 }
 
 const Main = styled.div.attrs({
-  className: `bg-white pt2 pb2`,
+  className: `bg-white pt2 pb2 pl4 pr4`,
 })``
 
 const Header = styled.h1.attrs({

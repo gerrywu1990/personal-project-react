@@ -4,6 +4,9 @@ import styled from 'styled-components'
 import { mockEvent } from '../../helper/event-data-mock'
 import { getForks, getPullRequest } from '../../helper/process-data-utils'
 
+import CustomButton from '../custom-button/custom-button.component'
+import FormInput from '../form-input/form-input.component'
+
 class SearchForm extends React.Component {
   constructor(props) {
     super(props)
@@ -48,17 +51,16 @@ class SearchForm extends React.Component {
     console.log('form render')
     return (
       <Form onSubmit={this.handleSubmit}>
-        <Label htmlFor="search">Github Username</Label>
-        <Input
+        <FormInput
           id="search"
+          label="Github Username"
           name="search"
           type="text"
           value={this.state.search}
           onChange={this.handleChange}
           required
         />
-
-        <Button type="submit">GET USER</Button>
+        <CustomButton type="submit">GET USER</CustomButton>
       </Form>
     )
   }
@@ -66,19 +68,6 @@ class SearchForm extends React.Component {
 
 const Form = styled.form.attrs({
   className: 'measure center shadow-4 pa5 mv6 flex flex-column bg-white',
-})``
-
-const Button = styled.button.attrs({
-  className: 'b pv2 input-reset ba b--black bg-transparent grow pointer f5 mt3 w-50 br2',
-  type: 'submit',
-})``
-
-const Label = styled.label.attrs({
-  className: `db fw4 lh-copy f4`,
-})``
-
-const Input = styled.input.attrs({
-  className: `b pa2 input-reset ba bg-transparent`,
 })``
 
 export default SearchForm
