@@ -1,4 +1,6 @@
 import React from 'react'
+import { mockEvent } from '../../helper/event-data-mock'
+import { mockPullRequest } from '../../helper/pull-request-data-mock'
 
 class SearchForm extends React.Component {
   constructor(props) {
@@ -20,12 +22,14 @@ class SearchForm extends React.Component {
 
   getPullRequest = async data => {
     const anAsyncFunction = async pullRequest => {
-      return await fetch(pullRequest.payload.pull_request.url)
+      return await //   fetch(pullRequest.payload.pull_request.url)
+      fetch('https://pokeapi.co/api/v2/pokemon')
         .then(response => {
           if (!response.ok) {
             throw Error("can't get pull request data")
           }
-          return response.json()
+          //   return response.json()
+          return mockPullRequest
         })
         .then(({ html_url, state, title }) => ({ url: html_url, state, title }))
         .catch(error => alert(error.message))
@@ -38,18 +42,20 @@ class SearchForm extends React.Component {
   handleSubmit = event => {
     event.preventDefault()
 
-    fetch(`https://api.github.com/users/pkanal/events`)
+    // fetch(`https://api.github.com/users/pkanal/events`)
+    fetch('https://pokeapi.co/api/v2/pokemon')
       .then(response => {
         if (!response.ok) {
-          throw Error("Can't fetch data. Please try another user")
+          throw Error("Can't fetch event. Please try another user")
         }
-        return response.json()
+        // return response.json()
+        return mockEvent
       })
       .then(async data => {
         const forks = this.getForks(data)
         const pullRequest = await this.getPullRequest(data)
         this.props.updateUserAndData(this.state.search, forks, pullRequest)
-        // this.setState({ search: '' })
+        this.setState({ search: '' })
       })
       .catch(error => alert(error.message))
   }
