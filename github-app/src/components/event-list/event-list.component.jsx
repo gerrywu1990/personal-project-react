@@ -23,7 +23,7 @@ const EventList = ({ type, heading, data }) => {
 
   return (
     <Section>
-      <h1>{heading}</h1>
+      <h2>{heading}</h2>
       {content}
     </Section>
   )
@@ -34,7 +34,7 @@ const List = styled.ul.attrs({
 })``
 
 const Section = styled.div.attrs({
-  className: `ma5`,
+  className: `ma4`,
 })``
 
 export default EventList

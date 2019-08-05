@@ -26,6 +26,7 @@ class App extends React.Component {
       <div>
         {this.state.currentUser ? (
           <Main>
+            <Header>{this.state.currentUser}</Header>
             <EventList type="forks" heading="Recent Forks" data={this.state.forks} />
             <EventList
               type="pullRequest"
@@ -43,6 +44,10 @@ class App extends React.Component {
 
 const Main = styled.div.attrs({
   className: `bg-white pt2 pb2`,
+})``
+
+const Header = styled.h1.attrs({
+  className: `tc f1 f-headline-l mb3 mt3 fw6 tracked-tight`,
 })``
 
 export default App
