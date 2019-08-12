@@ -1,19 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
-import axios from 'axios'
+import { connect } from 'react-redux'
 
-import { mockEvent } from '../mock-data/event-data-mock'
-import { getForks, getPullRequest } from '../helper/process-data-utils'
+import { getUserEventsThunk } from '../store/events.actions'
 
 import CustomButton from './custom-button.component'
 import FormInput from './form-input.component'
 
-const CancelToken = axios.CancelToken
-const source = CancelToken.source()
-
 class SearchForm extends React.Component {
-  constructor(props) {
-    super(props)
+  constructor() {
+    super()
 
     this.state = {
       search: '',
@@ -23,35 +19,16 @@ class SearchForm extends React.Component {
   handleSubmit = async event => {
     event.preventDefault()
 
-    try {
-      const response = await axios.get(`https://api.github.com/users/${this.state.search}/events`, {
-        cancelToken: source.token,
-      })
-      const data = await response.data
-      // const data = mockEvent   // comment the above two lines and uncomment this line to use mock data
-      const currentUser = this.state.search
-      const forks = getForks(data)
-      const pullRequest = await getPullRequest(data)
-
-      this.props.updateUserAndData(currentUser, forks, pullRequest)
-    } catch (error) {
+    await this.props.getEventsThunk(this.state.search)
+    if (this.props.hasErrored.hasErrored) {
       this.setState({ search: '' })
-
-      // const errorMessage =
-      //   error.response && error.response.status === 404
-      //     ? "Can't fetch event. Please try another user"
-      //     : error
-      // alert(errorMessage)
+      alert(this.props.hasErrored.errorMessage)
     }
   }
 
   handleChange = event => {
     const { value, name } = event.target
     this.setState({ [name]: value })
-  }
-
-  componentWillUnmount() {
-    source.cancel('Operation canceled by the user.')
   }
 
   render() {
@@ -72,8 +49,24 @@ class SearchForm extends React.Component {
   }
 }
 
+const mapStateToProps = state => {
+  console.log('state in form:', state)
+  return {
+    hasErrored: state.eventsReducer.eventsHasErrored,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getEventsThunk: search => dispatch(getUserEventsThunk(search)),
+  }
+}
+
 const Form = styled.form.attrs({
   className: 'measure center shadow-4 pa5 mv6 flex flex-column bg-white',
 })``
 
-export default SearchForm
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SearchForm)

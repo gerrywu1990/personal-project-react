@@ -1,14 +1,20 @@
 import axios from 'axios'
 import { mockPullRequest } from '../mock-data/pull-request-data-mock'
 
-export const getForks = data =>
-  data
-    .filter(event => event.type === 'ForkEvent')
-    .map(event => ({
-      repo: event.payload.forkee.full_name,
-      forkFrom: event.repo.name,
-      url: event.payload.forkee.html_url,
-    }))
+export const getForks = data => {
+  const forks = data.filter(event => event.type === 'ForkEvent')
+
+  const formatedForks =
+    forks.length === 0
+      ? []
+      : forks.map(event => ({
+          repo: event.payload.forkee.full_name,
+          forkFrom: event.repo.name,
+          url: event.payload.forkee.html_url,
+        }))
+
+  return formatedForks
+}
 
 export const getPullRequest = async data => {
   const anAsyncFunction = async pullRequest => {
