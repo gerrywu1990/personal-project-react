@@ -1,4 +1,5 @@
-import { mockPullRequest } from './pull-request-data-mock'
+import axios from 'axios'
+import { mockPullRequest } from '../mock-data/pull-request-data-mock'
 
 export const getForks = data =>
   data
@@ -11,17 +12,17 @@ export const getForks = data =>
 
 export const getPullRequest = async data => {
   const anAsyncFunction = async pullRequest => {
-    return await //fetch(pullRequest.payload.pull_request.url)
-    fetch('https://pokeapi.co/api/v2/pokemon')
-      .then(response => {
-        if (!response.ok) {
-          throw Error("can't get pull request data")
-        }
-        //   return response.json()
-        return mockPullRequest
-      })
-      .then(({ html_url, state, title }) => ({ url: html_url, state, title }))
-      .catch(error => alert(error.message))
+    try {
+      const response = await axios.get(pullRequest.payload.pull_request.url)
+      const pullRequestData = response.data
+      // const pullRequestData = mockPullRequest // comment the above two lines and uncomment this line to use mock data
+      const { html_url, state, title } = pullRequestData
+      return { url: html_url, state, title }
+    } catch (error) {
+      const errorMessage =
+        error.response && error.response.status === 404 ? "can't get pull request data" : error
+      alert(errorMessage)
+    }
   }
 
   const pullRequestEvent = data.filter(event => event.type === 'PullRequestEvent')

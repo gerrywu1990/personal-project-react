@@ -2,8 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 
 const EventCard = ({ title, subtitle, url }) => (
-  <ListItem>
-    <Link href={url}>
+  <ListItem data-testid="list-item">
+    <Link href={url} data-testid="external-link">
       <Title>{title}</Title>
       <Subtitle>{subtitle}</Subtitle>
     </Link>

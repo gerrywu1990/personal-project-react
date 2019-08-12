@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import EventCard from '../event-card/event-card.component'
+import EventCard from './event-card.component'
 
 const EventList = ({ type, heading, data }) => {
   let content
@@ -9,7 +9,7 @@ const EventList = ({ type, heading, data }) => {
     content = <p>No related data</p>
   } else {
     content = (
-      <List>
+      <List data-testid="event-list">
         {type === 'forks'
           ? data.map(({ forkFrom, repo, url }, idx) => (
               <EventCard key={idx} title={repo} subtitle={`Fork from: ${forkFrom}`} url={url} />
@@ -22,7 +22,7 @@ const EventList = ({ type, heading, data }) => {
   }
 
   return (
-    <Section>
+    <Section data-testid="event-section">
       <h2>{heading}</h2>
       {content}
     </Section>

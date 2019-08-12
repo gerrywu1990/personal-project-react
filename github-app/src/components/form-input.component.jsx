@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const FormInput = ({ label, ...otherProps }) => (
+const FormInput = ({ label, id, ...otherProps }) => (
   <>
-    <Label>{label}</Label>
-    <Input {...otherProps} />
+    <Label htmlFor={id}>{label}</Label>
+    <Input id={id} {...otherProps} />
   </>
 )
 
