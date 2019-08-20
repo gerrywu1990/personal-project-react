@@ -6,8 +6,8 @@ import { setUser } from '../store/user.action'
 import EventList from './event-list.component'
 import CustomButton from './custom-button.component'
 
-const EventView = props => {
-  const { currentUser, forks, pullRequests, clearUser } = props
+const EventView = ({ currentUser, forks, pullRequests, clearUser }) => {
+  // const { currentUser, forks, pullRequests, clearUser } = props
   return (
     <Main data-testid="event-view">
       <CustomButton data-testid="back-button" className="ml" onClick={clearUser}>
@@ -21,7 +21,6 @@ const EventView = props => {
 }
 
 const mapStateToProps = state => {
-  console.log('state in event view:', state)
   return {
     currentUser: state.setUser,
     forks: state.eventsReducer.forks,
